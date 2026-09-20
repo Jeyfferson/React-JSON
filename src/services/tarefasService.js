@@ -1,4 +1,4 @@
-const URL_API = 'http://localhost:3000/tarefas';
+const URL_API = 'https://backend-react-vu3t.onrender.com';
 
 export async function buscarTarefas() {
 
