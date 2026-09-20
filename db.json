@@ -1,0 +1,25 @@
+{
+  
+  "tarefas": [
+    { 
+        "id": "1",
+        "title": "Studying JSON Server",
+        "completed": true
+    },
+    {
+        "id": "2",
+        "title": "consume an API",
+        "completed": true
+    },
+    {
+        "id": "3",
+        "title": "Studying HTML and CSS",
+        "completed": false
+    },
+    {
+        "id": "4",
+        "title": "Studying Java Script",
+        "completed": false
+    }
+  ]
+}
