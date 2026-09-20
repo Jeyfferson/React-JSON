@@ -1,82 +1,36 @@
-import { useState } from 'react';
+// Substitua o link abaixo pela SUA URL real do Render
+const API_URL = "https://backend-react-vu3t.onrender.com";
 
-function ListaTarefas({ tarefas = [], onExcluir, onAlterar }) {
-    const [tarefaParaExcluir, setTarefaParaExcluir] = useState(null);
+export const buscarTarefas = async () => {
+    const resposta = await fetch(API_URL);
+    if (!resposta.ok) throw new Error("Erro ao buscar tarefas");
+    return await resposta.json();
+};
 
-    if (!Array.isArray(tarefas) || tarefas.length === 0) {
-        return (
-            <p className="nenhuma-tarefa">
-                Nenhuma tarefa cadastrada
-            </p>
-        );
-    }
+export const criarTarefa = async (novaTarefa) => {
+    const resposta = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(novaTarefa),
+    });
+    if (!resposta.ok) throw new Error("Erro ao criar tarefa");
+    return await resposta.json();
+};
 
-    const confirmarExclusao = () => {
-        if (tarefaParaExcluir) {
-            onExcluir(tarefaParaExcluir.id);
-            setTarefaParaExcluir(null);
-        }
-    };
+export const atualizarStatus = async (id, dados) => {
+    const resposta = await fetch(`${API_URL}/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dados),
+    });
+    if (!resposta.ok) throw new Error("Erro ao atualizar tarefa");
+    return await resposta.json();
+};
 
-    return (
-        <section className="lista">
-            {tarefas.map((tarefa) => (
-                <article className="tarefa" key={tarefa.id}>
-                    <div>
-                        <h2 className={tarefa.concluida ? "concluida" : ""}>
-                            {tarefa.titulo}
-                        </h2>
-
-                        <span>
-                            {tarefa.concluida ? "Concluída" : "Pendente"}
-                        </span>
-                    </div>
-
-                    <div className="acoes">
-                        <button 
-                            className="botao-excluir" 
-                            type="button" 
-                            onClick={() => setTarefaParaExcluir(tarefa)}
-                        >
-                            Excluir
-                        </button>
-                        <button 
-                            type="button" 
-                            onClick={() => onAlterar(tarefa)}
-                        >
-                            {tarefa.concluida ? "Reabrir" : "Concluir"}
-                        </button> 
-                        
-                    </div>
-                </article>
-            ))}
-
-            {/* MODAL DE CONFIRMAÇÃO */}
-            {tarefaParaExcluir && (
-                <div className="modal-overlay">
-                    <div className="modal-caixa">
-                        <h3>Confirmar Exclusão</h3>
-                        <p>Tem certeza que deseja excluir a tarefa <strong>"{tarefaParaExcluir.titulo}"</strong>?</p>
-                        
-                        <div className="modal-acoes">
-                            <button 
-                                className="btn-cancelar" 
-                                onClick={() => setTarefaParaExcluir(null)}
-                            >
-                                Cancelar
-                            </button>
-                            <button 
-                                className="btn-confirmar" 
-                                onClick={confirmarExclusao}
-                            >
-                                Excluir
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </section>
-    );
-}
-
-export default ListaTarefas;
+export const excluirTarefa = async (id) => {
+    const resposta = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+    });
+    if (!resposta.ok) throw new Error("Erro ao excluir tarefa");
+    return await resposta.json();
+};
