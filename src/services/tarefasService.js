@@ -12,7 +12,7 @@ export async function buscarTarefas() {
 
 };
 
-export async function CriarTarefa(tarefa) {
+export async function criarTarefa(tarefa) {
 
     const response = await fetch(URL_API, {
         method: 'POST',
@@ -41,7 +41,7 @@ export async function excluirTarefa(id) {
     };
 };
 
-export async function atualizarStatus(id, status) {
+export async function atualizarStatus(id, concluida) {
 
     const response = await fetch(`${URL_API}/${id}`, {
         method: 'PATCH',
@@ -49,7 +49,7 @@ export async function atualizarStatus(id, status) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ 
-            concluida: status 
+            concluida: concluida 
         })
     });
 
